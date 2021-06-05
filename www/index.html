@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Login</title>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script> -->
+  <link rel="stylesheet" href="./bundle.css">
+  <script src="./bundle.js"></script>
+</head>
+<body>
+  <div class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-3">
+          <div class="box">
+            <form id="form">
+              <div class="field">
+                <div class="control">
+                  <label class="label">ชื่อผู้ใช้งาน:</label>
+                  <input id="username" class="input" type="text">
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <label class="label">รหัสผ่าน:</label>
+                  <input id="password" class="input" type="password">
+                </div>
+              </div>
+              <hr>
+              <div class="field">
+                <button class="button is-link">เข้าสู่ระบบ</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const form = document.getElementById('form')
+    const username = document.getElementById('username')
+    const password = document.getElementById('password')
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+      try {
+        const response = await axios.post('http://localhost:3000/login', {
+          username: username.value,
+          password: password.value
+        })
+        new Noty({
+          type: 'success',
+          text: response.data.message,
+          layout: 'topCenter'
+        }).show()
+      } catch (error) {
+        new Noty({
+          type: 'error',
+          text: error?.response.data.message || 'พบปัญหาบางอย่าง',
+          layout: 'topCenter'
+        }).show()
+      }
+    })
+  </script>
+</body>
+</html>
